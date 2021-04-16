@@ -1,4 +1,5 @@
 import re
+import operator
 
 def range_validator(string):
 
@@ -15,23 +16,27 @@ def range_validator(string):
         object_list = []
         for x in input_list:
             try:
-                object_list.append(Interval(int(x)).__dict__)
+                object_list.append(Interval(int(x)))
             except:
                 split_x = re.split(r'\D+', x)
                 start = int(split_x[0])
                 end = int(split_x[1])
                 if start <= end:
-                    object_list.append(Interval(start, end).__dict__)
+                    object_list.append(Interval(start, end))
         
         return object_list
 
 
     #reduces interval objects to remove overlap & redundancy
     def interval_synth(args):
-        sorted_objects = sorted(args, key = lambda x: x['start'])
+        # sorted_objects = sorted(args, key = lambda x: x['start'])
+        sorted_objects = sorted(args, key = lambda x: x.start)
+        # sorted_objects = sorted(args, key = lambda x: getattr(x, 'start'))
+        # sorted_objects = sorted(args, key=operator.attrgetter('start'))
         i = 0
         while i < len(sorted_objects) - 1:
-            if sorted_objects[i]['end'] >= sorted_objects[i + 1]['start']:
+            if sorted_objects[i].end >= sorted_objects[i + 1].start:
+            # if sorted_objects[i]['end'] >= sorted_objects[i + 1]['start']:
                 if sorted_objects[i + 1]['end'] <= sorted_objects[i]['end']:
                     del sorted_objects[i + 1]
                 else:
@@ -43,6 +48,8 @@ def range_validator(string):
 
     object_list = parse_input(string)
     return interval_synth(object_list)
+
+    parse_input(string)
 
 # print(range_validator('7-10, 2-5'))
 
