@@ -18,8 +18,11 @@ def range_validator(string):
                 object_list.append(Interval(int(x)).__dict__)
             except:
                 split_x = re.split(r'\D+', x)
-                if split_x[0] <= split_x[1]:
-                    object_list.append(Interval(int(split_x[0]), int(split_x[1])).__dict__)
+                start = int(split_x[0])
+                end = int(split_x[1])
+                if start <= end:
+                    object_list.append(Interval(start, end).__dict__)
+        
         return object_list
 
 
@@ -41,5 +44,15 @@ def range_validator(string):
     object_list = parse_input(string)
     return interval_synth(object_list)
 
+# print(range_validator('7-10, 2-5'))
 
-print(range_validator('65-11, 1, 5, 3, 4-8, 7-10'))
+assert range_validator('6') == [{'start': 6, 'end': 6}]
+assert range_validator('1, 5') == [{'start': 1, 'end': 1}, {'start': 5, 'end': 5}]
+assert range_validator('5, 1') == [{'start': 1, 'end': 1}, {'start': 5, 'end': 5}]
+assert range_validator('4-8') == [{'start': 4, 'end': 8}]
+assert range_validator('4, 4-8') == [{'start': 4, 'end': 8}]
+assert range_validator('5, 4-8') == [{'start': 4, 'end': 8}]
+assert range_validator('8, 4-8') == [{'start': 4, 'end': 8}]
+assert range_validator('4-8, 7-10') == [{'start': 4, 'end': 10}]
+assert range_validator('4-8, 2-20') == [{'start': 2, 'end': 20}]
+assert range_validator('7-10, 2-5') == [{'start': 2, 'end': 5}, {'start': 7, 'end': 10}]
