@@ -95,3 +95,6 @@ class TestCases(unittest.TestCase):
     def test_range_order(self):
         self.assertEqual(range_validator('7-10, 2-5')[0].__dict__, {'start': 2, 'end': 5})
         self.assertEqual(range_validator('7-10, 2-5')[1].__dict__, {'start': 7, 'end': 10})
+
+if __name__ == '__main__':
+    unittest.main()
