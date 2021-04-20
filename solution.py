@@ -12,12 +12,14 @@ def range_validator(entry_string):
 
     #parses string to separate into interval objects
     def parse_input(input_string):
+
         #check for invalid characters
         if re.match('^[\d\-,\s]*$', input_string) == None:
             raise ValueError('You have entered invalid characters')
         regex = '\d+(?:\s*-\s*\d+)?(?:,\d+(?:-\d+)?)*'
         input_list = re.findall(regex, input_string)
         object_list = []
+
         #check for errors in invidual range selections and create objects
         for x in input_list:            
             try:
@@ -39,7 +41,6 @@ def range_validator(entry_string):
         
         return object_list
 
-
     #reduces interval objects to remove overlap & redundancy
     def interval_synth(args):
         sorted_objects = sorted(args, key = lambda x: x.start)
@@ -57,6 +58,7 @@ def range_validator(entry_string):
 
     object_list = parse_input(entry_string)
     return interval_synth(object_list)
+
 
 class TestCases(unittest.TestCase):
     def test_single(self):
@@ -91,6 +93,10 @@ class TestCases(unittest.TestCase):
     def test_range_order(self):
         self.assertEqual(range_validator('7-10, 2-5')[0].__dict__, {'start': 2, 'end': 5})
         self.assertEqual(range_validator('7-10, 2-5')[1].__dict__, {'start': 7, 'end': 10})
+
+    def test_unpaired(self):
+        self.assertEqual(range_validator('7-')[0].__dict__, {'start': 7, 'end': 7})
+        self.assertEqual(range_validator('-7')[0].__dict__, {'start': 7, 'end': 7})
 
 if __name__ == '__main__':
     unittest.main()
