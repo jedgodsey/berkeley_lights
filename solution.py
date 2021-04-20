@@ -58,10 +58,6 @@ def range_validator(entry_string):
     object_list = parse_input(entry_string)
     return interval_synth(object_list)
 
-    # parse_input(entry_string)
-
-range_validator('3, 5')
-
 class TestCases(unittest.TestCase):
     def test_single(self):
         self.assertEqual(range_validator('6')[0].__dict__, {'start': 6, 'end': 6})
