@@ -75,6 +75,10 @@ class TestCases(unittest.TestCase):
     def test_range(self):
         self.assertEqual(range_validator('4-8')[0].__dict__, {'start': 4, 'end': 8})
 
+    def test_single_and_range(self):
+        self.assertEqual(range_validator('2, 4-8')[0].__dict__, {'start': 2, 'end': 2})
+        self.assertEqual(range_validator('2, 4-8')[1].__dict__, {'start': 4, 'end': 8})
+
     def test_same_start(self):
         self.assertEqual(range_validator('4, 4-8')[0].__dict__, {'start': 4, 'end': 8})
 
